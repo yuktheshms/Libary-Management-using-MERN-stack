@@ -100,7 +100,25 @@ const UserForm = ({
                 </Grid>
               </RadioGroup>
             </FormControl>
+            <Button size="large" variant="outlined" component="label" color="info">
+                Upload photo
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
 
+                    reader.onload = function (event) {
+                      const fileDataURL = event.target.result;
+                      setUser({ ...user, photoUrl: fileDataURL });
+                    };
+
+                    reader.readAsDataURL(file);
+                  }}
+                  hidden
+                />
+              </Button>
 
             <TextField name="password" type="password" label="Password" value={user.password} required
                        onChange={(e) => setUser({...user, password: e.target.value})}/>

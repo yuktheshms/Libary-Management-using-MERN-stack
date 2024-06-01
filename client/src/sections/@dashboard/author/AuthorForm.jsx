@@ -52,19 +52,25 @@ const AuthorForm = ({
                        onChange={(e) => setAuthor({...author, description: e.target.value})}
             />
 
-            <Button
-              size="large"
-              variant="outlined"
-              component="label"
-              color="info"
-            >
-              Upload photo
-              <input
-                type="file"
-                accept="image/jpeg, image/png"
-                hidden
-              />
-            </Button>
+<Button size="large" variant="outlined" component="label" color="info">
+                Upload photo
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = function (event) {
+                      const fileDataURL = event.target.result;
+                      setAuthor({ ...author, photoUrl: fileDataURL });
+                    };
+
+                    reader.readAsDataURL(file);
+                  }}
+                  hidden
+                />
+              </Button>
 
             <br/>
             <Box textAlign="center">
